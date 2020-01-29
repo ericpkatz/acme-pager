@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from './api';
 
-const Pager = ()=> {
+const Pager = ({ count })=> {
+  const pages = new Array(Math.round(count/50)).fill('').map( (_, idx)=> {
+    return {
+      text: idx + 1,
+      idx
+    };
+  });
   return (
     <nav>
-      <a href='#view=users&idx=0'>1</a>
-      <a href='#view=users&idx=1'>2</a>
+      {
+        pages.map( page => {
+          return (
+            <a key={ page.idx } href={`#view=users&idx=${page.idx}`}>
+              { page.text }
+            </a>
+          );
+        })
+      }
     </nav>
   );
 };
@@ -24,7 +37,17 @@ const Users = ()=> {
   return (
     <div>
       <Pager count={ count } />
-      Users ({ users.length})
+      <ul>
+        {
+          users.map( user => {
+            return (
+              <li key={ user.id }>
+                { user.email }
+              </li>
+            );
+          })
+        }
+      </ul>
     </div>
   );
 };
