@@ -1,24 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import qs from 'qs';
+
+import Users from './Users';
+
+const Nav = ({ view })=> {
+  return (
+    <nav>
+      <a href='#' className={ !view ? 'selected': ''}>Home</a>
+      <a href='#view=users' className={ view === 'users' ? 'selected': ''}>Users</a>
+    </nav>
+  );
+};
+
+const Home = ()=> <div>Home</div>;
+
 
 function App() {
+  const getHash = ()=> {
+    return window.location.hash.slice(1);
+  }
+  const [ params, setParams ] = useState(qs.parse(getHash()));
+
+  useEffect(()=> {
+    window.addEventListener('hashchange', ()=> {
+      setParams(qs.parse(getHash()));
+    });
+  }, []);
+
+  const { view } = params;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Nav view={ view }/>
+      <main>
+        {
+          !view && <Home />
+        }
+        {
+          view ==='users' && <Users />
+        }
+      </main>
     </div>
   );
 }
