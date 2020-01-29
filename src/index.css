@@ -19,6 +19,12 @@ nav {
   padding: 1rem;
 }
 
+nav.pager {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+
 nav a {
   color: white;
   padding: 1rem;

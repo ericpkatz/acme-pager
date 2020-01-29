@@ -27,7 +27,7 @@ function App() {
     });
   }, []);
 
-  const { view } = params;
+  const { view, idx } = params;
 
   return (
     <div>
@@ -37,7 +37,7 @@ function App() {
           !view && <Home />
         }
         {
-          view ==='users' && <Users />
+          view ==='users' && <Users idx={ idx }/>
         }
       </main>
     </div>
